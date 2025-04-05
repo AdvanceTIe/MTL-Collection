@@ -25,7 +25,7 @@ console.log("Clave Stripe:", process.env.STRIPE_SECRET_KEY ? "Cargada correctame
 // Ruta de prueba para verificar que el servidor responde
 app.get('/', (req, res) => {
     //res.send('Servidor de pagos funcionando correctamente.');
-    res.sendFile(path.join(__dirname, '../frontend', 'index.html'));
+    res.sendFile(path.join(__dirname, '../', 'index.html'));
 });
 
 // Ruta para obtener productos
