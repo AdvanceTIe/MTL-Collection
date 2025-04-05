@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1, Safari=1,Firefox=1">
+   
+    <!-- Iconos para pagina -->
+    <link rel="manifest" href="/frontend/img/ico/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/frontend/img/myth-toys-lover.jpg">
+
+    <link rel="icon" type="image/png" href="/frontend/img/ico/myth-toys-lover-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/frontend/img/ico/myth-toys-lover.svg" />
+    <link rel="shortcut icon" href="/frontend/img/ico/myth-toys-lover.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/frontend/img/ico/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="MyWebSite" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <meta name="theme-color" content="#ffffff">
+    <title>Myth-toys-lover </title>
+    <meta name="keywords" content="Volvo, JPRO, Caterpilar, Calterm, Hino, Alison, Cummins, International, Isuzo, Hino, Mack, freightliner"/>
+    <link rel="stylesheet" href="/frontend/css/styles.css">
+    <link rel="stylesheet" href="/frontend/css/car.css">
+    <link rel="stylesheet" href="/frontend/css/product.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://www.paypal.com/sdk/js?client-id=Acsrml6iXJTujkOlbYy-rk7fLFYW6JCrZbiRFLyyBvsqgDaLzyY0ZDlVhv7Q1havDfx8W0I1YFD3T3tE&currency=USD"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <!--
+        https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css
+        https://api.WhatsApp.com/send?phone=573176473302"
+    <script src="js/scriptp.js" defer></script>
+    -->
+</head>
+<body>
+    <header>
+        <div class="header__container">
+            <div class="header__top">
+                <div class="logo">
+                    <a href="Product.html">
+                        <img src="/frontend/img/myth-toys-lover.jpg" title="Toys lover" alt="Myth-toys-lover" class="logo__src">
+                    </a>
+                </div>
+                <div class="search__box">
+                    <input type="search" placeholder="¿Buscar?">
+                </div>
+                <div class="social__redes__Apps">
+                    <div class="footer__redes__Apps">
+                       <!--
+                        <a class="facebook" href="#">
+                            <i class="fa-brands fa-facebook-f" style="color: #ffffff;"></i>
+                        </a> 
+                        -->
+                        <a class="tik-tok" href="#">
+                            <i class="fa-brands fa-tiktok"></i>
+                        </a>
+                        <a class="intagram" href="#">
+                            <i class="fa-brands fa-instagram"></i></a>
+                        <a class="youtube" href="#">                    
+                            <img src="/frontend/img/social/youtube_white.svg" width="16px" alt=""> </a>   
+                    </div>
+                    <div class="car__compras">
+                        <a href="./cart.html" id="cart__icon">
+                           <!-- <img src="/frontend/img/car-compras.gif" alt=""> <span id="cuenta__Cart">0</span> -->
+                            <img src="/frontend/img/shopping-card-svgrepo-com.svg" alt=""> <span id="cuenta__Cart">0</span>
+                        </a>
+                    </div>                  
+                 </div>
+            </div>
+        </div>
+    </header>   
+    <main class="main__container_cart">
+        <div id="cart-container">
+            <!-- Encabezado de la tabla -->
+            <div class="cart-header">
+                <div>Producto</div>
+                <div>Detalle</div>
+                <div>Cantidad</div>
+                <div>Precio</div>
+            </div>     
+            <!-- Contenedor para los items del carrito -->
+            <div id="cart-items"></div>       
+            <!-- Resumen del carrito -->
+            <div id="cart-summary" class="cart-summary"></div>       
+            <div class="cart-summary__line"></div>
+<!-- 
+            <div class="shipping-section">
+                <h3>Calcular Envío</h3>
+                <label for="zipcode">Código Postal:</label>
+                <input type="text" id="zipcode" placeholder="Ingresa tu código postal">           
+                <button id="calculate-shipping">Calcular Envío</button>
+                <p id="shipping-cost">Costo de Envío: $0.00</p>
+            </div>
+-->
+            <!-- Botones de acciones -->
+            <div class="cart-actions">
+                <button id="clear-cart">Limpiar carrito</button>      
+                 <button id="buy-now">Pagar</button>
+            </div>
+            <!-- Sección de pago (se muestra al hacer clic en "Pagar") -->
+            <div id="payment-section" style="display: none;">
+                <div id="paypal-button-container"></div>
+                <button id="pay-with-card">Pagar con Tarjeta</button>
+
+            </div>
+        </div>
+    </main>
+    <script src="/frontend/js/cart.js"></script>
+
+
+
+    <footer class="footer__global">
+        <div class="footer__container">
+        <div class="Copyright">
+            <small>
+                Copyright &copy; 2025 <b>Myth toys lover</b> - All Rights Reserved
+            </small>
+        </div>
+    </footer>
+    <div class="WhatsApp__container">
+        <a href="https://wa.me/573045314432?text=Bienvenido a Myth toys lover, !Inicia una chat para ayuarte!!" class="WhatsApp__link" target="_blank">            
+            <img class="WhatsApp__boton" src="/frontend/img/social/WhatsApp.svg" alt="">
+        </a>
+    </div>
+    <script src="/frontend/js/scriptp.js" defer></script>
+
+
+    <script>
+        // Escuchar mensajes de la ventana de pago
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'paymentSuccess') {
+                // Limpiar el carrito
+                localStorage.removeItem("productp");
+                
+                // Mostrar mensaje de éxito
+                alert('¡Pago completado con éxito!');
+                
+                // Recargar para mostrar carrito vacío
+                window.location.reload();
+            }
+        });
+    </script>
+
+</body>
+
+</html>

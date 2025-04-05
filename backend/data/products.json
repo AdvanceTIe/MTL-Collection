@@ -1,0 +1,124 @@
+[
+    {
+        "category": "Poseidon",
+        "name": "Bandai - Saint Seiya Myth Cloth Mermaid Thetis", 
+        "description": "Original Bandai Tamashii",
+        "video": "https://www.instagram.com/reel/DE5q1_fylI7/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+        "images": [
+            "/frontend/img/Seiya/s-l1600-1.jpg", 
+            "/frontend/img/Seiya/s-l1600-2.jpg", 
+            "/frontend/img/Seiya/s-l1600-3.jpg",
+            "/frontend/img/Seiya/s-l1600-4.jpg"
+        ],
+        "options": [
+            { "price": 109.00, "label": "BANDAI IN USA"}
+        ]
+
+    },
+    {
+        "category": "Escorpio",
+        "name": "Bandai - Saint Seiya Myth Cloth EX Scorpion Milo, God Cloth",
+        "description": "Original Bandai God Cloth",
+        "video": "https://www.tiktok.com/@myth_toys_lover/video/7479239410324720926?is_from_webapp=1&sender_device=pc&web_id=7488025308554429998",
+        "images": [
+            "/frontend/img/Milo/s-l1600-1.jpg", 
+            "/frontend/img/Milo/s-l1600-2.jpg", 
+            "/frontend/img/Milo/s-l1600-3.jpg",
+            "/frontend/img/Milo/s-l1600-4.jpg"
+        ],
+        "options": [
+            { "price": 202.00, "label": "BANDAI IN USA"}
+        ]
+    },
+    {
+        "category": "Shiryu",
+        "name": "Bandai Spirits - Dragon Shiryu First Bronze Cloth",
+        "description": "Original Bandai Spirits REVIVAL edition.",
+        "video": "https://www.tiktok.com/@myth_toys_lover/video/7481009289960639774?is_from_webapp=1&sender_device=pc&web_id=7488025308554429998",
+        "images": [
+            "/frontend/img/DragonS/s-l1600-1.jpg", 
+            "/frontend/img/DragonS/s-l1600-2.jpg", 
+            "/frontend/img/DragonS/s-l1600-3.jpg",
+            "/frontend/img/DragonS/s-l1600-4.jpg"
+        ],
+        "options": [
+            { "price": 109.98, "label": "BANDAI IN USA   "}
+        ]
+    },
+    {
+        "category": "Andromeda",
+        "name": "Bandai Spirits - Andromeda Shun EX Reborn Bronze Cloth",
+        "description": "Original Spirits REVIVAL edition",
+        "video": "https://www.tiktok.com/@myth_toys_lover?is_from_webapp=1&sender_device=pc",
+        "images": [
+            "/frontend/img/AndromedaS/s-l1600-1.jpg", 
+            "/frontend/img/AndromedaS/s-l1600-2.jpg", 
+            "/frontend/img/AndromedaS/s-l1600-3.jpg",
+            "/frontend/img/AndromedaS/s-l1600-4.jpg"
+        
+        ],
+        "options": [
+            { "price": 109.00, "label": "BANDAI IN USA     "}
+        ]
+    },
+    {
+        "category": "Shaka",
+        "name": "Bandai - Cloth EX Shaka Virgo God Cloth",
+        "description": "Original with Bonus with First edition",
+        "video": "https://www.instagram.com/reel/DHwAS__sbEq/?igsh=MThidW10dW9vZzF0",
+        "images": [
+            "/frontend/img/ShakaG/s-l1600-1.jpg", 
+            "/frontend/img/ShakaG/s-l1600-2.jpg", 
+            "/frontend/img/ShakaG/s-l1600-3.jpg",
+            "/frontend/img/ShakaG/s-l1600-4.jpg"
+        ],
+        "options": [
+            { "price": 309.50, "label": "BANDAI IN USA   "}
+        ]
+    },
+    {
+        "category": "papillon",
+        "name": "Bandai - Myth Cloth Papillon Web Limited Edition",
+        "description": "Original Bandai web Limited Edition",
+        "video": "https://www.instagram.com/reel/DENuUpJyEsa/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+        "images": [
+           "/frontend/img/Papilon/s-l1600-1.jpg", 
+            "/frontend/img/Papilon/s-l1600-2.jpg", 
+            "/frontend/img/Papilon/s-l1600-3.jpg",
+            "/frontend/img/Papilon/s-l1600-4.jpg"
+        ],
+        "options": [
+            { "price": 290.00, "label": "BANDAI IN USA    "}
+        ]
+    },
+    {
+        "category": "aries",
+        "name": "Bandai - Myth Cloth EX Aries Mu God Cloth",
+        "description": "First Edition, Bonus Included",
+        "video": "https://www.tiktok.com/@myth_toys_lover/video/7478362024922189086?is_from_webapp=1&sender_device=pc&web_id=7488025308554429998",
+        "images": [
+            "/frontend/img/AriesG/s-l1600-1.jpg", 
+            "/frontend/img/AriesG/s-l1600-2.jpg", 
+            "/frontend/img/AriesG/s-l1600-3.jpg",
+            "/frontend/img/AriesG/s-l1600-4.jpg"
+        ],
+        "options": [
+            { "price": 225.00, "label": "BANDAI IN USA  "}
+        ]
+    },
+    {
+        "category": "Alison",
+        "name": "Toys",
+        "description": "Imagen.",
+        "video": "https://www.instagram.com/reel/DHwAS__sbEq/?igsh=MThidW10dW9vZzF0",
+        "images": [
+            "/frontend/img/OdinB/s-l1600-1.jpg", 
+            "/frontend/img/OdinB/s-l1600-2.jpg", 
+            "/frontend/img/OdinB/s-l1600-3.jpg",
+            "/frontend/img/OdinB/s-l1600-4.jpg"
+        ],
+        "options": [
+            { "price": 70.00, "label": "BANDAI IN USA  "}
+        ]
+    }
+]
