@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <h2 class="cart-summary__title">Detalle de la Orden </h2>
             <hr>
             <div id="cart-summary-content">
-                <p><strong>Total elementos:</strong> <span id="total-items">${totalQuantity}</span></p>
+                <p><strong># Articulos:</strong> <span id="total-items">${totalQuantity}</span></p>
                 <p><strong>Precio total:</strong> USD $<span id="total-price">${totalPrice.toFixed(2)}</span></p>
             </div>
         `;
