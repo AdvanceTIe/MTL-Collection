@@ -226,3 +226,19 @@ nueva presentacion
     border-top: 2px solid #eee;
     font-weight: bold;
 }
+.tax-details {
+    border-top: 1px solid #ccc;
+    margin-top: 10px;
+    padding-top: 10px;
+    font-weight: bold;
+}
+.tax-details h3 {
+    color: #555;
+}
+.tax-details p {
+    color: #555;
+}
+
+.payment-cancel-tks {
+    color: red;
+}
