@@ -26,7 +26,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <img src="${item.image}" alt="${item.productName}" width="40">
                 <div class="item-details">
                     <h3>${item.productName}</h3>
-                   // <p>Cantidad: ${item.quantity} <span>Precio: $ </span> ${(parseFloat(item.price) / item.quantity).toFixed(2)}</p>
                     <p>Cantidad: ${item.quantity} <span>Precio: $ </span> ${(parseFloat(item.price)).toFixed(2)}</p>
                 </div>
             `;
