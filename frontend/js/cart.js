@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 quantity: item.quantity
             }));
     
-            const response = await fetch("http://localhost:3001/create-checkout-session", {
+            const response = await fetch("https://myth-toys-lover-a31a385f199b.herokuapp.com/create-checkout-session", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
