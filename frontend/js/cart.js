@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <button data-index="${index}" class="quantity-button increase">+</button>
                 </div>
                 <div class="cart-price">
-                    <p>USD $<span>${(parseFloat(item.price) / item.quantity).toFixed(2)}</span></p> 
+                    <p>USD $<span>${(parseFloat(item.price)).toFixed(2)}</span></p>
                 </div>
             `;
             cartContainer.appendChild(cartItem);
@@ -108,6 +108,9 @@ document.addEventListener("DOMContentLoaded", () => {
             cart[index].price = (cart[index].quantity * parseFloat(cart[index].price / (cart[index].quantity + 1))).toFixed(2);
         } else {
             cart.splice(index, 1); // Eliminar producto si la cantidad es 0
+            // Limpiar el resumen del carrito completamente
+        cartSummary.innerHTML = "";
+        cartSummary.style.display = "none";
         }
         updateCart();
     }
@@ -117,7 +120,12 @@ document.addEventListener("DOMContentLoaded", () => {
         renderCart();
     }
 
-    clearCartBtn.addEventListener("click", () => {
+    clearCartBtn.addEventListener("click", async () => {
+
+        if (cart.length === 0) {
+    
+            return;
+        }
 
         if (!confirm('¿Estás seguro de que quieres vaciar el carrito?')) {
             return;
@@ -133,6 +141,8 @@ document.addEventListener("DOMContentLoaded", () => {
     buyNowBtn.addEventListener("click", async () => {
         if (cart.length === 0) {
             alert("Tu carrito está vacío.");
+            cartSummary.innerHTML = "";
+            cartSummary.style.display = "none";
             return;
         }
     

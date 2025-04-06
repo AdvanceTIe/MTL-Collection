@@ -5,10 +5,10 @@
         "description": "Original Bandai Tamashii",
         "video": "https://www.instagram.com/reel/DE5q1_fylI7/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
         "images": [
-            "/frontend/img/Seiya/s-l1600-1.jpg", 
-            "/frontend/img/Seiya/s-l1600-2.jpg", 
-            "/frontend/img/Seiya/s-l1600-3.jpg",
-            "/frontend/img/Seiya/s-l1600-4.jpg"
+            "/img/Seiya/s-l1600-1.jpg", 
+            "/img/Seiya/s-l1600-2.jpg", 
+            "/img/Seiya/s-l1600-3.jpg",
+            "/img/Seiya/s-l1600-4.jpg"
         ],
         "options": [
             { "price": 109.00, "label": "BANDAI IN USA"}
@@ -21,10 +21,10 @@
         "description": "Original Bandai God Cloth",
         "video": "https://www.tiktok.com/@myth_toys_lover/video/7479239410324720926?is_from_webapp=1&sender_device=pc&web_id=7488025308554429998",
         "images": [
-            "/frontend/img/Milo/s-l1600-1.jpg", 
-            "/frontend/img/Milo/s-l1600-2.jpg", 
-            "/frontend/img/Milo/s-l1600-3.jpg",
-            "/frontend/img/Milo/s-l1600-4.jpg"
+            "/img/Milo/s-l1600-1.jpg", 
+            "/img/Milo/s-l1600-2.jpg", 
+            "/img/Milo/s-l1600-3.jpg",
+            "/img/Milo/s-l1600-4.jpg"
         ],
         "options": [
             { "price": 202.00, "label": "BANDAI IN USA"}
@@ -36,10 +36,10 @@
         "description": "Original Bandai Spirits REVIVAL edition.",
         "video": "https://www.tiktok.com/@myth_toys_lover/video/7481009289960639774?is_from_webapp=1&sender_device=pc&web_id=7488025308554429998",
         "images": [
-            "/frontend/img/DragonS/s-l1600-1.jpg", 
-            "/frontend/img/DragonS/s-l1600-2.jpg", 
-            "/frontend/img/DragonS/s-l1600-3.jpg",
-            "/frontend/img/DragonS/s-l1600-4.jpg"
+            "/img/DragonS/s-l1600-1.jpg", 
+            "/img/DragonS/s-l1600-2.jpg", 
+            "/img/DragonS/s-l1600-3.jpg",
+            "/img/DragonS/s-l1600-4.jpg"
         ],
         "options": [
             { "price": 109.98, "label": "BANDAI IN USA   "}
@@ -51,10 +51,10 @@
         "description": "Original Spirits REVIVAL edition",
         "video": "https://www.tiktok.com/@myth_toys_lover?is_from_webapp=1&sender_device=pc",
         "images": [
-            "/frontend/img/AndromedaS/s-l1600-1.jpg", 
-            "/frontend/img/AndromedaS/s-l1600-2.jpg", 
-            "/frontend/img/AndromedaS/s-l1600-3.jpg",
-            "/frontend/img/AndromedaS/s-l1600-4.jpg"
+            "/img/AndromedaS/s-l1600-1.jpg", 
+            "/img/AndromedaS/s-l1600-2.jpg", 
+            "/img/AndromedaS/s-l1600-3.jpg",
+            "/img/AndromedaS/s-l1600-4.jpg"
         
         ],
         "options": [
@@ -67,10 +67,10 @@
         "description": "Original with Bonus with First edition",
         "video": "https://www.instagram.com/reel/DHwAS__sbEq/?igsh=MThidW10dW9vZzF0",
         "images": [
-            "/frontend/img/ShakaG/s-l1600-1.jpg", 
-            "/frontend/img/ShakaG/s-l1600-2.jpg", 
-            "/frontend/img/ShakaG/s-l1600-3.jpg",
-            "/frontend/img/ShakaG/s-l1600-4.jpg"
+            "/img/ShakaG/s-l1600-1.jpg", 
+            "/img/ShakaG/s-l1600-2.jpg", 
+            "/img/ShakaG/s-l1600-3.jpg",
+            "/img/ShakaG/s-l1600-4.jpg"
         ],
         "options": [
             { "price": 309.50, "label": "BANDAI IN USA   "}
@@ -82,10 +82,10 @@
         "description": "Original Bandai web Limited Edition",
         "video": "https://www.instagram.com/reel/DENuUpJyEsa/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
         "images": [
-           "/frontend/img/Papilon/s-l1600-1.jpg", 
-            "/frontend/img/Papilon/s-l1600-2.jpg", 
-            "/frontend/img/Papilon/s-l1600-3.jpg",
-            "/frontend/img/Papilon/s-l1600-4.jpg"
+           "/img/Papilon/s-l1600-1.jpg", 
+            "/img/Papilon/s-l1600-2.jpg", 
+            "/img/Papilon/s-l1600-3.jpg",
+            "/img/Papilon/s-l1600-4.jpg"
         ],
         "options": [
             { "price": 290.00, "label": "BANDAI IN USA    "}
@@ -97,10 +97,10 @@
         "description": "First Edition, Bonus Included",
         "video": "https://www.tiktok.com/@myth_toys_lover/video/7478362024922189086?is_from_webapp=1&sender_device=pc&web_id=7488025308554429998",
         "images": [
-            "/frontend/img/AriesG/s-l1600-1.jpg", 
-            "/frontend/img/AriesG/s-l1600-2.jpg", 
-            "/frontend/img/AriesG/s-l1600-3.jpg",
-            "/frontend/img/AriesG/s-l1600-4.jpg"
+            "/img/AriesG/s-l1600-1.jpg", 
+            "/img/AriesG/s-l1600-2.jpg", 
+            "/img/AriesG/s-l1600-3.jpg",
+            "/img/AriesG/s-l1600-4.jpg"
         ],
         "options": [
             { "price": 225.00, "label": "BANDAI IN USA  "}
@@ -112,10 +112,10 @@
         "description": "Imagen.",
         "video": "https://www.instagram.com/reel/DHwAS__sbEq/?igsh=MThidW10dW9vZzF0",
         "images": [
-            "/frontend/img/OdinB/s-l1600-1.jpg", 
-            "/frontend/img/OdinB/s-l1600-2.jpg", 
-            "/frontend/img/OdinB/s-l1600-3.jpg",
-            "/frontend/img/OdinB/s-l1600-4.jpg"
+            "/img/OdinB/s-l1600-1.jpg", 
+            "/img/OdinB/s-l1600-2.jpg", 
+            "/img/OdinB/s-l1600-3.jpg",
+            "/img/OdinB/s-l1600-4.jpg"
         ],
         "options": [
             { "price": 70.00, "label": "BANDAI IN USA  "}

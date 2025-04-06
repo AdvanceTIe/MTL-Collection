@@ -18,14 +18,18 @@ app.use(cors({
 app.use(express.json());
 
 // Servir archivos estáticos desde 'frontend'
-app.use(express.static(path.join(__dirname, '../frontend')));
+//app.use(express.static(path.join(__dirname, '../')));
+
+// Servir archivos estáticos desde 'frontend' como raíz
+app.use('/', express.static(path.join(__dirname, '../frontend')));
+
 
 console.log("Clave Stripe:", process.env.STRIPE_SECRET_KEY ? "Cargada correctamente" : "No encontrada");
 
 // Ruta de prueba para verificar que el servidor responde
 app.get('/', (req, res) => {
     //res.send('Servidor de pagos funcionando correctamente.');
-    res.sendFile(path.join(__dirname, '../', 'index.html'));
+    res.sendFile(path.join(__dirname, '../frontend', 'index.html'));
 });
 
 // Ruta para obtener productos
@@ -74,8 +78,8 @@ app.post('/create-checkout-session', async (req, res) => {
             payment_method_types: ['card'],
             line_items: lineItems,
             mode: 'payment',
-            success_url: `${req.headers.origin}/frontend/success.html?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${req.headers.origin}/frontend/cancel.html?session_id={CHECKOUT_SESSION_ID}`,
+            success_url: `${req.headers.origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${req.headers.origin}/cancel.html?session_id={CHECKOUT_SESSION_ID}`,
         });
 
         console.log("✅ Sesión creada en Stripe:", session.id);

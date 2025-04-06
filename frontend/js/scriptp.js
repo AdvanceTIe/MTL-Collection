@@ -1,27 +1,24 @@
 document.addEventListener('DOMContentLoaded', function() {
-
     const searchInput = document.querySelector(".search__box input");
     const container = document.getElementById('products-section');
     let productsData = [];
-    // Cargar productos desde el JSON
-  fetch('/backend/data/products.json')
-        .then(response => response.json())
+
+    // Cargar productos desde la API del backend
+    fetch('/products')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(products => {
-            products.forEach((product, index) => createProductCard(product, index));
+            console.log("Productos recibidos:", products); // Depuración
             productsData = products; // Guardamos los productos originales
             renderProducts(productsData); // Renderizamos todos los productos
         })
-        .catch(
-           error => console.error("Error al cargar los productos:", error)
-          );
+        .catch(error => console.error("Error al cargar los productos:", error));
 
-
-   // Cargar productos desde la API del backend
-   
-
-
-
-// Función para renderizar los productos
+    // Función para renderizar los productos
 function renderProducts(filteredProducts) {
     container.innerHTML = ""; // Limpiar productos antes de renderizar
 
