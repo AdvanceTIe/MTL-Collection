@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-        const response = await fetch(`http://localhost:3001/payment-details?session_id=${sessionId}`);
+        const response = await fetch(`https://www.myth-toys-lover.com/payment-details?session_id=${sessionId}`);
         const data = await response.json();
 
         console.log("Datos recibidos del backend:", data);
