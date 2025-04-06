@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const purchasedSection = document.createElement('section');
         purchasedSection.className = 'purchased-items';
         purchasedSection.innerHTML = `
-            <h2><i class="fas fa-box-open"></i> Productos Comprados</h2>
+            <h2><i class="fas fa-box-open"></i> Detalle Productos</h2>
             <div id="purchased-items-list"></div>
         `;
 
@@ -32,10 +32,25 @@ document.addEventListener("DOMContentLoaded", async () => {
             itemsList.appendChild(itemElement);
         });
 
-        //<p>Precio: USD $${(parseFloat(item.price) / item.quantity).toFixed(2)}</p>
+        // Detalle de la compra #articulos, valor e impuestos al final de la lista
+        const subtotal = orderData.items.reduce((acc, item) => acc + parseFloat(item.price), 0); // Total antes de impuestos
+        const tax = parseFloat(orderData.tax); // Impuestos desde orderData
+        const totalWithTax = parseFloat(orderData.total); // Total con impuestos desde orderData
+        const totalQuantity = orderData.items.reduce((acc, item) => acc + item.quantity, 0); // Número total de artículos
 
-        // Limpiar sessionStorage después de mostrar
-        sessionStorage.removeItem('orderData');
+        const taxElement = document.createElement('div');
+        taxElement.className = 'purchased-item tax-details';
+        taxElement.innerHTML = `
+            <div class="item-details">
+                <!-- <h3>Costos</h3> -->
+                <p><strong># Artículos:</strong> ${totalQuantity}</p>
+                <p><strong>Subtotal :</strong> USD $${subtotal.toFixed(2)} </p>
+                <p><strong>Impuestos :</strong> USD $${tax.toFixed(2)}</p>
+                <p><strong>Valor Total :</strong> USD $${totalWithTax.toFixed(2)}</p>
+            </div>
+        `;
+        itemsList.appendChild(taxElement);
+        
     }
 
     // Resto del código para detalles de Stripe
@@ -46,6 +61,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
         const response = await fetch(`https://www.myth-toys-lover.com/payment-details?session_id=${sessionId}`);
+        //const response = await fetch(`http://localhost:3001/payment-details?session_id=${sessionId}`);
         const data = await response.json();
 
         console.log("Datos recibidos del backend:", data);
@@ -81,5 +97,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch (error) {
         console.error("Error al obtener detalles del pago:", error);
         document.getElementById("payment-details").innerHTML = "<p>Error al cargar la información del pago.</p>";
+    }
+
+    // Evento Limpiar sessionStorage al ejecutar el botón payment-cont "Seguir Comprando" 
+    const continueButton = document.querySelector('.payment-cont');
+    if (continueButton) {
+        continueButton.addEventListener('click', () => {
+            sessionStorage.removeItem('orderData');
+            console.log("limpiado datos sessionStorage al hacer clic en 'Seguir Comprando'");
+        });
     }
 });
