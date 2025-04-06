@@ -751,6 +751,7 @@ nav {
     .footer__redes__Apps h4 {
         display: none;
     }
+  
     .main__container {
         height: calc(100vh - 220px); 
     }
@@ -759,12 +760,21 @@ nav {
     }
     .section__menu {
         width: 19%;
+        padding: 15px;
     }
     .section__product {
         margin-left: 20%;
     }
     .social__redes__Apps {
-        height:20px;
-        margin-left: 5px;  
+        height:10px;
+        margin-left: 5px; 
+        padding: 5px;
     }
+
+    .main__container_cart {
+        
+        padding: 15px 15px;
+
+    }
+    
 }
