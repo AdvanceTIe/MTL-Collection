@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const payWithCardBtn = document.getElementById("pay-with-card");
     const cardPaymentForm = document.getElementById("card-payment-form");
     const cartCountElement = document.getElementById("cuenta__Cart"); // Icono del carrito
+    
+    const TAX_RATE = 0.07; // % de impuesto
 
     if (!cartContainer) {
         console.error("Error: No se encontró el contenedor 'cart-items'");
@@ -19,10 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.removeItem("productp");
         cart = [];
         renderCart();
-        
         // Mostrar mensaje de éxito
         alert('¡Pago completado con éxito!');
-        
         // Eliminar el parámetro de la URL
         history.replaceState(null, '', window.location.pathname);
     }
@@ -67,12 +67,17 @@ document.addEventListener("DOMContentLoaded", () => {
             cartContainer.appendChild(cartItem);
         });
 
+        const taxAmount = totalPrice * TAX_RATE;
+        const totalWithTax = totalPrice + taxAmount;
+
         cartSummary.innerHTML = `
             <h2 class="cart-summary__title">Detalle de la Orden </h2>
             <hr>
             <div id="cart-summary-content">
                 <p><strong># Articulos:</strong> <span id="total-items">${totalQuantity}</span></p>
-                <p><strong>Precio total:</strong> USD $<span id="total-price">${totalPrice.toFixed(2)}</span></p>
+               <!-- <p><strong>Impuestos (${(TAX_RATE * 100).toFixed(0)}%):</strong> USD $<span id="tax-amount">${taxAmount.toFixed(2)}</span></p> -->
+                <p><strong>Impuestos:</strong> USD $<span id="tax-amount">${taxAmount.toFixed(2)}</span></p>
+                <p><strong>Precio total:</strong> USD $<span id="total-price">${totalWithTax.toFixed(2)}</span></p>
             </div>
         `;
 
@@ -109,8 +114,8 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             cart.splice(index, 1); // Eliminar producto si la cantidad es 0
             // Limpiar el resumen del carrito completamente
-        cartSummary.innerHTML = "";
-        cartSummary.style.display = "none";
+            cartSummary.innerHTML = "";
+            cartSummary.style.display = "none";
         }
         updateCart();
     }
@@ -121,12 +126,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     clearCartBtn.addEventListener("click", async () => {
-
         if (cart.length === 0) {
-    
             return;
         }
-
         if (!confirm('¿Estás seguro de que quieres vaciar el carrito?')) {
             return;
         }
@@ -148,11 +150,17 @@ document.addEventListener("DOMContentLoaded", () => {
     
         try {
             console.log("🛒 Preparando datos para Stripe:", cart);
+
+            const totalPrice = cart.reduce((total, item) => total + parseFloat(item.price), 0);
+            const taxAmount = totalPrice * TAX_RATE;
+            const totalWithTax = totalPrice + taxAmount;
             
             // 1. Guardar copia del carrito para mostrar en success.html
             const orderData = {
                 items: [...cart], // Copia del carrito actual
-                total: cart.reduce((total, item) => total + parseFloat(item.price), 0).toFixed(2),
+                //total: cart.reduce((total, item) => total + parseFloat(item.price), 0).toFixed(2), old
+                total: totalWithTax.toFixed(2),
+                tax: taxAmount.toFixed(2), //new linea
                 date: new Date().toISOString()
             };
             sessionStorage.setItem('orderData', JSON.stringify(orderData));
@@ -163,8 +171,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 price: Math.round((parseFloat(item.price) / item.quantity) * 100), // en centavos
                 quantity: item.quantity
             }));
+
+            itemsForStripe.push({
+                name: `Impuestos `,
+                //name: `Impuestos (${(TAX_RATE * 100).toFixed(0)}%)`,
+                price: Math.round(taxAmount * 100),
+                quantity: 1
+            });
     
             const response = await fetch("https://www.myth-toys-lover.com/create-checkout-session", {
+            //const response = await fetch("http://localhost:3001/create-checkout-session", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -186,10 +202,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
     
             console.log("🔗 Redirigiendo a:", data.url);
-            
             // 3. Limpiar el carrito justo antes de redirigir
             localStorage.removeItem("productp");
-            
             // 4. Redirigir a Stripe
             window.location.href = data.url;
     
