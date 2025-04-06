@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <div class="item-details">
                     <h3>${item.productName}</h3>
                    // <p>Cantidad: ${item.quantity} <span>Precio: $ </span> ${(parseFloat(item.price) / item.quantity).toFixed(2)}</p>
-                    <p>Cantidad: ${item.quantity} <span>Precio: $ </span> ${(parseFloat(item.price).toFixed(2)}</p>
+                    <p>Cantidad: ${item.quantity} <span>Precio: $ </span> ${(parseFloat(item.price)).toFixed(2)}</p>
                 </div>
             `;
             itemsList.appendChild(itemElement);
