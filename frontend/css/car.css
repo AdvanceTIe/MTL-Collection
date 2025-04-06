@@ -254,7 +254,8 @@ border: 2px solid rgba(13, 9, 87, 0.837);
     +text-align: center;
     */
     margin-bottom: 5px;
-    color: #333;
+    color: #003153;
+    text-transform: uppercase; 
 }
 
 .cart-summary__content {
