@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Determinar si el botón debe estar desactivado y su contenido
         const isLowStock = product.stock === 1;
         const buttonContent = isLowStock
-            ? `<a href="https://wa.me/17868342456text=Hola,%20quiero%20consultar%20sobre%20el%20producto%20${encodeURIComponent(product.name)}%20(Bajo%20Inventario)" target="_blank" class="contact-chat">Contactar por Chat</a>`
+            ? `<a href="https://wa.me/17868342456?text=Bienvenido a Myth toys lover, quiero infromacion sobre  ${encodeURIComponent(product.name)}"  target="_blank" class="contact-chat">Contactar por Chat</a>`
             : `Agregar: $${product.options[0].price.toFixed(2)}`;
     
         productCard.innerHTML = `
