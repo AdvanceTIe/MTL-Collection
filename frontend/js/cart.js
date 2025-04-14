@@ -7,15 +7,50 @@ document.addEventListener("DOMContentLoaded", () => {
     const payWithCardBtn = document.getElementById("pay-with-card");
     const cardPaymentForm = document.getElementById("card-payment-form");
     const cartCountElement = document.getElementById("cuenta__Cart"); // Icono del carrito
+// Envio US
+    const shippingInput = document.getElementById("shipping-zipcode");
+    const calculateShippingBtn = document.getElementById("calculate-shipping");
+    const shippingCostElement = document.getElementById("shipping-cost")?.querySelector("span");
+// Envio Intercacional
+    const shippingCountryInput = document.getElementById("shipping-country");
+    const shippingStateInput = document.getElementById("shipping-state");
+    const shippingNoteElement = document.getElementById("shipping-note");
+// Sección de envío
+    const shippingSection = document.querySelector(".shipping-section");
+// Mensaje de procesando
+    const processingMessage = document.getElementById("processing-message");
+
+    const internationalShippingCheckbox = document.getElementById("international-shipping");
+    const internationalFields = document.querySelectorAll(".international-field");
     
     const TAX_RATE = 0.07; // % de impuesto
+
+    let shippingCost = 0; // Variable para almacenar el costo de envío
 
     if (!cartContainer) {
         console.error("Error: No se encontró el contenedor 'cart-items'");
         return;
     }
 
-    // Verificar si viene de un pago exitoso
+
+    // Mostrar u ocultar campos internacionales según el checkbox
+    internationalShippingCheckbox.addEventListener("change", async () => {
+        const isInternational = internationalShippingCheckbox.checked;
+        internationalFields.forEach(field => {
+            field.style.display = isInternational ? "block" : "none";
+        });
+
+        // Limpiar campos y costo cuando se cambia la opción
+        shippingCountryInput.value = "";
+        shippingStateInput.value = "";
+        shippingCost = 0; // Reiniciar el costo de envío
+        shippingCostElement.textContent = "USD $0.00";
+        shippingNoteElement.textContent = "Por favor, calcula el costo de envío.";
+        shippingNoteElement.style.display = "block";
+    renderCart(); // Actualizar el resumen
+    });
+
+    // Verificar si el pago fue exitoso antes de limpiar cart
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('payment_success')) {
         localStorage.removeItem("productp");
@@ -29,21 +64,115 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let cart = JSON.parse(localStorage.getItem("productp")) || [];
 
-    function renderCart() {
-        cartContainer.innerHTML = "";
-        let totalQuantity = 0;
-        let totalPrice = 0;
+    // inicio costo de envio
 
-        if (cart.length === 0) {
-            cartContainer.innerHTML = `<p class="empty-cart">El carrito está vacío.</p>`;
-            cartCountElement.textContent = "0";
-            paymentSection.style.display = "none";
-            return;
+// Evento para calcular costo de envío con FedEx
+
+// antes de validacion de Pais y codigos pais 
+calculateShippingBtn.addEventListener("click", async () => {
+    console.log("Botón Calcular Envío clicado");
+    const isInternational = internationalShippingCheckbox.checked;
+    const country = isInternational ? shippingCountryInput.value.trim().toUpperCase() : "US";
+    const location = shippingInput.value.trim();
+    const state = isInternational ? shippingStateInput.value.trim().toUpperCase() : undefined;
+
+    if (!country || !location) {
+        shippingCostElement.textContent = "USD $0.00";
+        shippingNoteElement.style.display = "none";
+        shippingCost = 0; // Reiniciar el costo de envío
+        shippingNoteElement.textContent = "Por favor, calcula el costo de envío.";
+        shippingNoteElement.style.display = "block";
+        renderCart(); // Actualizar el resumen
+        alert("Por favor, ingresa el país y el código postal.");
+        return;
+    }
+
+    if (cart.length === 0) {
+        shippingCostElement.textContent = "USD $0.00";
+        shippingNoteElement.style.display = "none";
+        shippingCost = 0; // Reiniciar el costo de envío
+        renderCart(); // Actualizar el resumen
+        alert("El carrito está vacío.");
+        return;
+    }
+
+    // Mostrar el mensaje de "Procesando..."
+    processingMessage.style.display = "block";
+    shippingCostElement.textContent = "USD $0.00"; // Limpiar mientras se procesa
+    shippingNoteElement.style.display = "none"; // Ocultar la nota mientras se procesa
+
+    try {
+        const response = await fetch("https://www.myth-toys-lover.com/calculate-shipping", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                destination: location,
+                country: country,
+                state: state || undefined,
+                items: cart.map(item => ({
+                    weight: item.weight || 1,
+                    height: item.height || 5,
+                    length: item.length || 10,
+                    width: item.width || 8,
+                    quantity: item.quantity,
+                    price: parseFloat(item.price) / item.quantity // Precio por unidad para customsValue
+                })),
+                origin: "33166"
+            })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(JSON.stringify(errorData.details) || errorData.error || "Error en el servidor");
         }
 
-        cart.forEach((item, index) => {
-            totalQuantity += item.quantity;
-            totalPrice += parseFloat(item.price);
+        const data = await response.json();
+        console.log("Costo de envío recibido:", data);
+        shippingCost = data.shippingCost; // Almacenar el costo de envío
+        shippingCostElement.textContent = `USD $${data.shippingCost.toFixed(2)}`;
+
+        // Mostrar advertencia para envíos internacionales
+        if (country !== "US") {
+            //shippingNoteElement.textContent = "Nota: El costo no incluye aranceles, impuestos ni tarifas de importación.";
+            shippingNoteElement.style.display = "block";
+        } else {
+            shippingNoteElement.style.display = "none";
+        }
+        renderCart(); // Actualizar el resumen con el nuevo costo de envío
+    } catch (error) {
+        console.error("No se pudo calcular el costo de envío en:", error.message);
+        shippingCostElement.textContent = "Validar";
+        shippingNoteElement.style.display = "none";
+        shippingCost = 0; // Reiniciar el costo de envío en caso de error
+        renderCart(); // Actualizar el resumen
+        alert(` ❌ Validar datos,  Pais ${country},  o zipcode ${location}.`);
+        console.log("No se pudo calcular el costo de envío:", error.message);
+    } finally {
+        // Ocultar el mensaje de "Procesando..." después de recibir la respuesta o en caso de error
+        processingMessage.style.display = "none";
+    }
+});
+
+    // fin coso de envio
+
+    function renderCart() {
+        cartContainer.innerHTML = "";
+    let totalQuantity = 0;
+    let totalPrice = 0;
+
+    if (cart.length === 0) {
+        cartContainer.innerHTML = `<p class="empty-cart">El carrito está vacío.</p>`;
+        cartCountElement.textContent = "0";
+        paymentSection.style.display = "none";
+        cartSummary.style.display = "none";
+        buyNowBtn.disabled = true; // Deshabilitar el botón si el carrito está vacío
+        shippingSection.style.display = "none"; // Ocultar la sección de envío
+        return;
+    }
+
+    cart.forEach((item, index) => {
+        totalQuantity += item.quantity;
+        totalPrice += parseFloat(item.price);
 
             const cartItem = document.createElement("div");
             cartItem.classList.add("cart-row");
@@ -69,20 +198,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const taxAmount = totalPrice * TAX_RATE;
         const totalWithTax = totalPrice + taxAmount;
+        const totalWithTaxAndShipping = totalPrice + taxAmount + shippingCost; // Incluir el costo de envío en el total
 
         cartSummary.innerHTML = `
             <h2 class="cart-summary__title">Detalle de la Orden </h2>
             <hr>
             <div id="cart-summary-content">
                 <p><strong># Articulos:</strong> <span id="total-items">${totalQuantity}</span></p>
-               <!-- <p><strong>Impuestos (${(TAX_RATE * 100).toFixed(0)}%):</strong> USD $<span id="tax-amount">${taxAmount.toFixed(2)}</span></p> -->
-                <p><strong>Impuestos:</strong> USD $<span id="tax-amount">${taxAmount.toFixed(2)}</span></p>
-                <p><strong>Precio total:</strong> USD $<span id="total-price">${totalWithTax.toFixed(2)}</span></p>
+                <p><strong>Impuestos:</strong> USD $<span id="tax-amount">${taxAmount.toFixed(2)}</span></p> 
+                <p><strong>Costo de Envío:</strong> USD $<span id="shipping-amount">${shippingCost.toFixed(2)}</span></p>        
+               <!-- <p><strong>Precio antes de envio total:</strong> USD $<span id="total-price">${totalWithTax.toFixed(2)}</span></p> -->
+                <p><strong>Precio total:</strong> USD $<span id="total-price">${totalWithTaxAndShipping.toFixed(2)}</span></p>
+
             </div>
         `;
 
         cartSummary.style.display = "block"; // Asegurar que sea visible
         cartCountElement.textContent = totalQuantity;
+        // Habilitar o deshabilitar el botón de pago según el costo de envío
+        buyNowBtn.disabled = shippingCost === 0;
+        shippingSection.style.display = "block"; //Mostrar la sección de envío
 
         if (cart.length === 0) {
             cartSummary.style.display = "none";
@@ -103,6 +238,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const index = event.target.getAttribute("data-index");
         cart[index].quantity++;
         cart[index].price = (cart[index].quantity * parseFloat(cart[index].price / (cart[index].quantity - 1))).toFixed(2); 
+        shippingCost = 0; // Reiniciar el costo de envío
+        shippingCostElement.textContent = "USD $0.00"; // Limpiar el costo de envío mostrado
+        shippingNoteElement.textContent = "Por favor, calcula el costo de envío nuevamente.";
+        shippingNoteElement.style.display = "block"; // Ocultar la nota de envío
+        //alert("El costo de envío ha  cambiado. Por favor, calcula el costo de envío nuevamente."); // Notificar al usuario
         updateCart();
     }
 
@@ -117,6 +257,11 @@ document.addEventListener("DOMContentLoaded", () => {
             cartSummary.innerHTML = "";
             cartSummary.style.display = "none";
         }
+        shippingCost = 0; // Reiniciar el costo de envío
+        shippingCostElement.textContent = "USD $0.00"; // Limpiar el costo de envío mostrado
+        shippingNoteElement.textContent = "Por favor, calcula el costo de envío nuevamente.";
+        shippingNoteElement.style.display = "block"; // Ocultar la nota de envío
+        //alert("El costo de envío ha  cambiado. Por favor, calcula el costo de envío nuevamente."); // Notificar al usuario
         updateCart();
     }
 
@@ -134,9 +279,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         localStorage.removeItem("productp");
         cart = [];
+        shippingCost = 0; // Reiniciar el costo de envío
+        shippingCostElement.textContent = "USD $0.00"; // Reiniciar el costo de envío en la sección de envío
+        shippingNoteElement.style.display ="none" //Ocultarnota de envio
         // Limpiar el resumen del carrito completamente
         cartSummary.innerHTML = "";
         cartSummary.style.display = "none";
+        shippingSection.style.display = "none"; // Ocultar la sección de envío
         renderCart();
     });
 
@@ -147,20 +296,26 @@ document.addEventListener("DOMContentLoaded", () => {
             cartSummary.style.display = "none";
             return;
         }
+        if (shippingCost === 0) {
+            alert("Por favor, calcula el costo de envío antes de proceder con el pago.");
+            return;
+        }
     
         try {
             console.log("🛒 Preparando datos para Stripe:", cart);
 
             const totalPrice = cart.reduce((total, item) => total + parseFloat(item.price), 0);
             const taxAmount = totalPrice * TAX_RATE;
-            const totalWithTax = totalPrice + taxAmount;
+            //const totalWithTax = totalPrice + taxAmount;
+            const totalWithTaxAndShipping = totalPrice + taxAmount + shippingCost; // Incluir el costo de envío
             
             // 1. Guardar copia del carrito para mostrar en success.html
             const orderData = {
                 items: [...cart], // Copia del carrito actual
                 //total: cart.reduce((total, item) => total + parseFloat(item.price), 0).toFixed(2), old
-                total: totalWithTax.toFixed(2),
+                total: totalWithTaxAndShipping.toFixed(2),
                 tax: taxAmount.toFixed(2), //new linea
+                shipping: shippingCost.toFixed(2), // Incluir el costo de envío en los datos de la orden
                 date: new Date().toISOString()
             };
             sessionStorage.setItem('orderData', JSON.stringify(orderData));
@@ -178,9 +333,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 price: Math.round(taxAmount * 100),
                 quantity: 1
             });
+            if (shippingCost > 0) {
+                itemsForStripe.push({
+                    name: `Costo de Envío`,
+                    price: Math.round(shippingCost * 100),
+                    quantity: 1
+                });
+            }
     
             const response = await fetch("https://www.myth-toys-lover.com/create-checkout-session", {
-            //const response = await fetch("http://localhost:3001/create-checkout-session", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
