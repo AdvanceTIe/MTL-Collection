@@ -83,15 +83,42 @@
             <!-- Resumen del carrito -->
             <div id="cart-summary" class="cart-summary"></div>       
             <div class="cart-summary__line"></div>
-<!-- 
-            <div class="shipping-section">
-                <h3>Calcular Envío</h3>
-                <label for="zipcode">Código Postal:</label>
-                <input type="text" id="zipcode" placeholder="Ingresa tu código postal">           
-                <button id="calculate-shipping">Calcular Envío</button>
-                <p id="shipping-cost">Costo de Envío: $0.00</p>
+        <!-- Envio IN USA -->
+ 
+        <div id="shipping-section" class="shipping-section">
+            <h2>Costo de Envío</h2>
+            <hr>
+            <div class="shipping-inputs">
+                <div class="input-group international-field country-field" style="display: none;">
+                    <label for="shipping-country">País:</label>
+                    <input type="text" id="shipping-country" placeholder="Ej. CA" maxlength="2" pattern="[A-Za-z]{2}" style="text-transform: uppercase;" required>
+                </div>
+                <div class="input-group zipcode-field">
+                    <label for="shipping-zipcode">Código postal:</label>
+                    <input type="text" id="shipping-zipcode" placeholder="Ej. 33166" maxlength="8" pattern="[A-Za-z0-9-]+" required>
+                </div>
+                <div class="input-group international-field state-field" style="display: none;">
+                    <label for="shipping-state">Estado/Provincia:</label>
+                    <input type="text" id="shipping-state" placeholder="Ej. ON" maxlength="10" style="text-transform: uppercase;">
+                </div>
             </div>
--->
+            <div class="shipping-actions">
+                <label class="international-checkbox">
+                    <input type="checkbox" id="international-shipping" name="international-shipping">
+                    Internacional
+                </label>
+                <button id="calculate-shipping">Calcular Envío</button>
+            </div>
+            <!-- <div id="processing-message" style="display: none; color: #333; font-style: italic; margin-top: 8px;">
+                <span class="spinner"></span> Procesando...
+            </div>-->
+            <div id="processing-message" style="display: none;">
+                <span class="spinner"></span> Procesando<span class="dots">.</span>
+            </div>
+            <p id="shipping-cost">Costo envío: <span>USD $0.00</span></p>
+            <p id="shipping-note" style="display: none; color: #ff6600; font-size: 0.9em;"></p>
+        </div>
+
             <!-- Botones de acciones -->
             <div class="cart-actions">
                 <button id="clear-cart">Limpiar carrito</button>      
@@ -107,8 +134,6 @@
     </main>
     <script src="/js/cart.js"></script>
 
-
-
     <footer class="footer__global">
         <div class="footer__container">
         <div class="Copyright">
@@ -123,7 +148,6 @@
         </a>
     </div>
     <script src="/js/scriptp.js" defer></script>
-
 
     <script>
         // Escuchar mensajes de la ventana de pago
