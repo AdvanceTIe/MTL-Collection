@@ -12,8 +12,12 @@
         ],
         "options": [
             { "price": 109.00, "label": "BANDAI IN USA"}
-        ]
-
+        ],
+        "weight": 2,
+        "height": 5,
+        "length": 10,
+        "width": 8,
+        "stock": 0
     },
     {
         "category": "Escorpio",
@@ -28,7 +32,12 @@
         ],
         "options": [
             { "price": 202.00, "label": "BANDAI IN USA"}
-        ]
+        ],
+        "weight": 1.5,
+        "height": 5,
+        "length": 10,
+        "width": 8,
+        "stock": 0
     },
     {
         "category": "Shiryu",
@@ -43,7 +52,12 @@
         ],
         "options": [
             { "price": 109.98, "label": "BANDAI IN USA   "}
-        ]
+        ],
+        "weight": 1.5,
+        "height": 5,
+        "length": 10,
+        "width": 8,
+        "stock": 0
     },
     {
         "category": "Andromeda",
@@ -59,7 +73,12 @@
         ],
         "options": [
             { "price": 109.00, "label": "BANDAI IN USA     "}
-        ]
+        ],
+        "weight": 1.5,
+        "height": 5,
+        "length": 10,
+        "width": 8,
+        "stock": 0
     },
     {
         "category": "Shaka",
@@ -74,7 +93,12 @@
         ],
         "options": [
             { "price": 309.50, "label": "BANDAI IN USA   "}
-        ]
+        ],
+        "weight": 1.5,
+        "height": 5,
+        "length": 10,
+        "width": 8,
+        "stock": 0
     },
     {
         "category": "papillon",
@@ -89,7 +113,12 @@
         ],
         "options": [
             { "price": 290.00, "label": "BANDAI IN USA    "}
-        ]
+        ],
+        "weight": 1.5,
+        "height": 5,
+        "length": 10,
+        "width": 8,
+        "stock": 0
     },
     {
         "category": "aries",
@@ -104,7 +133,12 @@
         ],
         "options": [
             { "price": 225.00, "label": "BANDAI IN USA  "}
-        ]
+        ],
+        "weight": 1.5,
+        "height": 5,
+        "length": 10,
+        "width": 8,
+        "stock": 0
     },
     {
         "category": "Alison",
@@ -119,6 +153,31 @@
         ],
         "options": [
             { "price": 70.00, "label": "BANDAI IN USA  "}
-        ]
+        ],
+        "weight": 1.5,
+        "height": 5,
+        "length": 10,
+        "width": 8,
+        "stock": 1
+    },
+    {
+        "category": "Alison",
+        "name": "Toys_sin",
+        "description": "no hay.",
+        "video": "https://www.instagram.com/reel/DHwAS__sbEq/?igsh=MThidW10dW9vZzF0",
+        "images": [
+            "/img/OdinB/s-l1600-1.jpg", 
+            "/img/OdinB/s-l1600-2.jpg", 
+            "/img/OdinB/s-l1600-3.jpg",
+            "/img/OdinB/s-l1600-4.jpg"
+        ],
+        "options": [
+            { "price": 70.00, "label": "BANDAI IN USA  "}
+        ],
+        "weight": 1.5,
+        "height": 5,
+        "length": 10,
+        "width": 8,
+        "stock": 1
     }
 ]
