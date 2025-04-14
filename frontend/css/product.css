@@ -7,6 +7,9 @@
 .product-card {
     /*
     +weight: 375px;
+   + overflow: hidden;
+  + padding: 10px;
+
     */
     display: flex;
     flex-direction: column;
@@ -16,13 +19,18 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
+  
     text-align: center;
     width: 250px; /* alto */
     height: 400px; /* ancho*/
-    padding: 10px;
+ 
     margin: 10px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    padding: 15px;
+    position: relative;
+    overflow: visible; /* Asegurar que el stock-flag no se recorte */
+
 
 }
 /* sombra de las tarjetas*/
@@ -32,12 +40,21 @@
 }
 
 .carousel { 
-  
+    /*
+
+    +margin-top: 30px; //Aumentar el margen superior para dejar espacio al stock-flag
+
+    */
+
     border-radius: 8px;
     position: relative;
     width: 100%;
-    height: 165px; /* Puedes aumentar este valor si es necesario */
+    height: 200px;
     overflow: hidden;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: 1px solid #615f5f;
     margin-bottom: 10px;
     display: flex;
@@ -87,9 +104,12 @@ h2 {
     margin-bottom: 5px;
     overflow: hidden; /* Evita que el texto desborde */
     text-overflow: ellipsis; /* Agrega "..." si el texto es largo */
-    display: -webkit-box;
-    -webkit-line-clamp: 3; /* Limita a 3 líneas */
-    -webkit-box-orient: vertical;
+    display: -webkit-box; /* Respaldo para navegadores antiguos */
+    display: box; /* Estándar (opcional, pero incluido por compatibilidad) */
+    -webkit-line-clamp: 3; /* Respaldo para navegadores antiguos */
+    line-clamp: 3; /* Propiedad estándar moderna */
+    -webkit-box-orient: vertical; /* Respaldo para navegadores antiguos */
+    box-orient: vertical; /* Estándar (opcional, pero incluido por compatibilidad) */
 }
 
 .price-options {
@@ -141,7 +161,9 @@ h2 {
 .buy-button:hover {
     background-color: #218838;
 }
-
+.buy-button:hover:not(:disabled) {
+    background-color: #218838;
+}
 /* Modal para la imagen ampliada */
 .image-modal {
     display: none;
@@ -217,3 +239,75 @@ h2 {
     }
 }
 */
+/* Estilo para productos con bajo inventario */
+.low-stock {
+    position: relative; /* Necesario para posicionar la bandera */
+}
+
+.stock-flag {
+    position: absolute;
+    top: 0; /* Mantener en la parte superior */
+    left: 0; /* Alinear a la izquierda */
+    background: linear-gradient(90deg, #ff6f00, #ffab40); /* Gradiente naranja moderno */
+    color: #fff;
+    padding: 6px 15px; /* Ajustar padding para mejor proporción */
+    font-size: 0.9em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px; /* Espaciado entre letras para un look moderno */
+    border-radius: 0 12px 12px 0; /* Redondear solo los bordes derechos */
+    box-shadow: 0 2px 8px rgba(255, 111, 0, 0.5); /* Sombra con un toque naranja */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Sombra en el texto para profundidad */
+    z-index: 10; /* Asegurar que esté por encima de otros elementos */
+    animation: pulse 1.5s infinite ease-in-out; /* Animación de pulsación */
+}
+
+/* Animación de pulsación para el stock-flag */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 2px 8px rgba(255, 111, 0, 0.5);
+    }
+    50% {
+        transform: scale(1.03);
+        box-shadow: 0 2px 12px rgba(255, 111, 0, 0.7);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 2px 8px rgba(255, 111, 0, 0.5);
+    }
+}
+
+/* Estilo del botón cuando está desactivado */
+.buy-button:disabled {
+    background-color: #cccccc; /* Gris para indicar que está desactivado */
+    color: #666666;
+    cursor: not-allowed;
+    border: none;
+}
+
+/* Estilo del enlace "Contactar por Chat" dentro del botón */
+.buy-button .contact-chat {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    display: block; /* Asegurar que ocupe todo el espacio del botón */
+    padding: 10px; /* Añadir padding para que coincida con el diseño del botón */
+    background-color: #218838; /* Verde de WhatsApp */
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.buy-button .contact-chat:hover {
+    background-color: #20b858; /* Verde más oscuro al pasar el mouse */
+}
+
+/* Desactivar interacciones visuales en inputs desactivados */
+/* Estilo de los inputs desactivados */
+.quantity input:disabled,
+.price-options input:disabled {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+    opacity: 0.6;
+    pointer-events: none; /* Asegurar que no se puedan interactuar */
+}
