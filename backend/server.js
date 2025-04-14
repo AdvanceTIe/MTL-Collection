@@ -4,6 +4,13 @@ const cors = require('cors');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const path = require('path'); // Añadido aquí
 const fs = require('fs');
+const axios = require('axios');
+
+
+const UPS_API_KEY = process.env.UPS_API_KEY;
+const FEDEX_API_KEY = process.env.FEDEX_API_KEY;
+const FEDEX_SECRET_KEY = process.env.FEDEX_SECRET_KEY;
+const FEDEX_ACCOUNT_NUMBER = process.env.FEDEX_ACCOUNT_NUMBER;
 
 const app = express();
 
@@ -26,7 +33,7 @@ app.use('/', express.static(path.join(__dirname, '../frontend')));
 
 console.log("Clave Stripe:", process.env.STRIPE_SECRET_KEY ? "Cargada correctamente" : "No encontrada");
 
-// Ruta de prueba para verificar que el servidor responde
+// Ruta de direccion a la pagina principal 
 app.get('/', (req, res) => {
     //res.send('Servidor de pagos funcionando correctamente.');
     res.sendFile(path.join(__dirname, '../frontend', 'index.html'));
@@ -128,7 +135,137 @@ app.get('/payment-details', async (req, res) => {
     }
 });
 // Iniciar el servidor
-//app.listen(3001, () => console.log('Servidor corriendo en http://localhost:3001'));
+
+//Endpoint para calcular costo de envío
+
+ //const shippingCost = 15.00; // Costo ficticio para pruebas
+    //res.json({ shippingCost });
+
+// Calcualo inter USA
+app.post('/calculate-shipping', async (req, res) => {
+    const { destination, country, state, items, origin } = req.body;
+
+    console.log("Datos recibidos:", { destination, country, state, items, origin });
+    console.log("Credenciales FedEx:", {
+        apiKey: process.env.FEDEX_API_KEY,
+        secretKey: process.env.FEDEX_SECRET_KEY,
+        accountNumber: process.env.FEDEX_ACCOUNT_NUMBER
+    });
+
+    try {
+        const tokenResponse = await axios.post('https://apis-sandbox.fedex.com/oauth/token', {
+            grant_type: 'client_credentials',
+            client_id: process.env.FEDEX_API_KEY,
+            client_secret: process.env.FEDEX_SECRET_KEY
+        }, {
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        });
+
+        const accessToken = tokenResponse.data.access_token;
+        console.log("Token:", accessToken);
+
+        // Crear requestedPackageLineItems teniendo en cuenta la cantidad de cada ítem
+        const requestedPackageLineItems = [];
+        items.forEach(item => {
+            const quantity = item.quantity || 1;
+            for (let i = 0; i < quantity; i++) {
+                requestedPackageLineItems.push({
+                    weight: { units: 'LB', value: item.weight || 1 },
+                    dimensions: {
+                        length: item.length || 10,
+                        width: item.width || 8,
+                        height: item.height || 5,
+                        units: 'IN'
+                    }
+                });
+            }
+        });
+
+        const isInternational = country !== "US";
+        const serviceType = isInternational ? "INTERNATIONAL_ECONOMY" : "FEDEX_GROUND";
+
+        const zipToState = {
+            "33166": "FL",
+            "90210": "CA",
+            "33018": "FL"
+        };
+        const originState = zipToState[origin] || "FL";
+
+        const shipmentDetails = {
+            shipper: {
+                address: {
+                    postalCode: origin,
+                    countryCode: "US",
+                    stateOrProvinceCode: originState
+                }
+            },
+            recipient: {
+                address: {
+                    postalCode: destination,
+                    countryCode: country || "US",
+                    stateOrProvinceCode: state || undefined
+                }
+            },
+            pickupType: "DROPOFF_AT_FEDEX_LOCATION",
+            rateRequestType: ["ACCOUNT"],
+            requestedPackageLineItems: requestedPackageLineItems,
+            serviceType: serviceType
+        };
+
+        if (isInternational) {
+            const totalCustomsValue = items.reduce((sum, item) => sum + (item.price || 100) * (item.quantity || 1), 0);
+            const totalQuantity = items.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            shipmentDetails.customsClearanceDetail = {
+                dutiesPayment: {
+                    paymentType: "SENDER"
+                },
+                customsValue: {
+                    amount: totalCustomsValue,
+                    currency: "USD"
+                },
+                commodities: [
+                    {
+                        description: "General Merchandise",
+                        countryOfManufacture: "US",
+                        quantity: totalQuantity,
+                        quantityUnits: "EA",
+                        unitPrice: {
+                            amount: totalCustomsValue / totalQuantity,
+                            currency: "USD"
+                        },
+                        customsValue: {
+                            amount: totalCustomsValue,
+                            currency: "USD"
+                        }
+                    }
+                ]
+            };
+        }
+
+        const fedexResponse = await axios.post('https://apis-sandbox.fedex.com/rate/v1/rates/quotes', {
+            accountNumber: { value: process.env.FEDEX_ACCOUNT_NUMBER },
+            requestedShipment: shipmentDetails
+        }, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+                'X-locale': 'en_US'
+            }
+        });
+
+        console.log("Respuesta completa de FedEx:", JSON.stringify(fedexResponse.data, null, 2));
+        const rateDetails = fedexResponse.data.output.rateReplyDetails[0].ratedShipmentDetails[0];
+        const shippingCost = parseFloat(rateDetails.totalNetFedExCharge || rateDetails.totalNetCharge);
+        if (isNaN(shippingCost)) {
+            throw new Error("No se encontró un costo válido en la respuesta de FedEx");
+        }
+        res.json({ shippingCost });
+    } catch (error) {
+        const errorDetails = error.response ? error.response.data : error.message;
+        console.error("Error con FedEx API:", JSON.stringify(errorDetails, null, 2));
+        res.status(500).json({ error: "No se pudo calcular el costo de envío", details: errorDetails });
+    }
+});
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`));
