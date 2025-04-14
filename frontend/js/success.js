@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         // Detalle de la compra #articulos, valor e impuestos al final de la lista
         const subtotal = orderData.items.reduce((acc, item) => acc + parseFloat(item.price), 0); // Total antes de impuestos
         const tax = parseFloat(orderData.tax); // Impuestos desde orderData
+        const totalshipping = parseFloat(orderData.shipping) || 0; // Costo de envío desde orderData, 0 si no existe
         const totalWithTax = parseFloat(orderData.total); // Total con impuestos desde orderData
         const totalQuantity = orderData.items.reduce((acc, item) => acc + item.quantity, 0); // Número total de artículos
 
@@ -46,6 +47,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <p><strong># Artículos:</strong> ${totalQuantity}</p>
                 <p><strong>Subtotal :</strong> USD $${subtotal.toFixed(2)} </p>
                 <p><strong>Impuestos :</strong> USD $${tax.toFixed(2)}</p>
+                <p><strong>Costo Envío:</strong> USD $${totalshipping.toFixed(2)}</p>
                 <p><strong>Valor Total :</strong> USD $${totalWithTax.toFixed(2)}</p>
             </div>
         `;
@@ -61,7 +63,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
         const response = await fetch(`https://www.myth-toys-lover.com/payment-details?session_id=${sessionId}`);
-        //const response = await fetch(`http://localhost:3001/payment-details?session_id=${sessionId}`);
         const data = await response.json();
 
         console.log("Datos recibidos del backend:", data);
