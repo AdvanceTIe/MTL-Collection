@@ -989,6 +989,10 @@ nav {
     .main__container_cart {  
         padding: 15px 15px;
     }
+     .search__box {
+        max-width: 230px; /* Reducir ancho en móviles */
+        margin-left: auto;
+    }
 
     .search__box input {
         /*+width: 80px; /* Reducimos más el ancho */
