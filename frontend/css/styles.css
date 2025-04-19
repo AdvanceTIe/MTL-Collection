@@ -12,7 +12,11 @@ body {
    /* Asegura que el body ocupe al menos el 100% de la altura de la ventana */
     min-height: 100vh;
     background-size: cover;
-    text-transform: capitalize;    
+    text-transform: capitalize;
+
+    overflow-x: hidden; /* Evita desplazamiento horizontal */
+    margin: 0; /* Asegura que no haya márgenes implícitos */
+    padding: 0; /* Asegura que no haya padding implícito */
 }
 
 /* Header */
@@ -23,14 +27,11 @@ body {
    +z-index: 1000;
    */
     background-color: rgb(0, 49, 83, 1);
-    position: fixed;
-   
+    position: fixed; 
     left: 0;
     top: 0;
     width: 100%;
-    
-    z-index:10;
-
+    z-index:20;
 }
 /* Main content */
 .main__container_home {
@@ -46,23 +47,48 @@ body {
     width: 100%;
     background-color:  #003153;
     color: #FFFFFF;
-   /*+z-index: 1000;*/
+   /*;*/
+   z-index: 15;
+
+    margin: 0; /* Aseguramos que no haya márgenes */
+    padding: 0; /* Aseguramos que no haya padding adicional */
 }
 /* Botón de WhatsApp */
 .WhatsApp__container {
-    position: fixed;
-    bottom: 35px; /* Ajusta según la altura del footer */
+    /*
+        bottom: 35px; /* Ajusta según la altura del footer 
     right: 10px;
+   + touch-action: manipulation;
+
+    */
+    position: fixed;
+
     z-index: 1001;
+
+    display: block; /* Asegura que no haya comportamiento de bloque implícito */
+    bottom: 60px; /* Ajusta según la altura del footer */
+    right: 10px; /* Ajustamos para que no esté tan cerca del borde */
+    touch-action: none;
 }
 .WhatsApp__container .WhatsApp__link img {
+    /*
     width: 35px;
     height: 45px;
     border-radius: 40%;
     transition: ease 0.3s;
     animation: WhatsApp__efecto 1.2s infinite;
-}
+    */
 
+    width: 50px; /* Tamaño cuadrado para el ícono */
+    height: 50px;
+    border-radius: 50%; /* Círculo completo */
+    transition: transform 0.3s ease; /* Transición suave para el hover */
+    animation: WhatsApp__efecto 2s infinite; /* Animación más lenta y suave */
+}
+.WhatsApp__container .WhatsApp__link img:hover {
+    transform: scale(1.1); /* Efecto de escala al pasar el mouse */
+}
+/*
 @keyframes WhatsApp__efecto{
     0%{
         box-shadow: 0 0 0 0 rgba(136, 22, 109, 0.85);
@@ -71,19 +97,34 @@ body {
         box-shadow: 0 0 0 25px rgba(167, 25, 108, 0);
     }
 }
-
+*/
+@keyframes WhatsApp__efecto {
+    0% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); /* Color verde de WhatsApp */
+    }
+    70% {
+        box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); /* Reduce el tamaño del pulso */
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+    }
+}  
 /*
 Main page product
 */
 .main__container {
     /* Color de la seccion de menu
     background: #00f281;
+    height: calc(100vh - 115px); /* Ajusta según la altura del header y footer 
     */
     display: flex;
     width: 100%;
-    padding-top: 80px;
-    height: calc(100vh - 115px); /* Ajusta según la altura del header y footer */
+    padding-top: 80px; /* Altura del header */
+    flex: 1; /* Ocupa el espacio restante entre header y footer */
+    height: auto; /* Cambiamos a auto para que se ajuste dinámicamente */
 
+    margin-bottom: 0; /* Aseguramos que no haya margen inferior */
+    padding-bottom: 40px; /* Espacio para el footer y WhatsApp */
 }
 .section__menu {
     /* Color de la seccion de menu
@@ -91,6 +132,7 @@ Main page product
     background: #2e2e2e;
     color: #FFFFFF; -- Color letra program
      +height: calc(100vh -220px);/* Ajusta según la altura del header y footer 
+     padding: 10px 20px;
     */
     position: fixed;
     left: 0;
@@ -98,8 +140,11 @@ Main page product
     padding: 20px;
     background-color: #FFFFFF;
     top: 120px;
-   
     overflow-y: auto;
+    /*padding arriba, derecha, abajo, izq*/
+    padding: 10px 3px 10px 20px; 
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #ddd;
 
 }
 .section__menu li a{
@@ -129,8 +174,9 @@ Main page product
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0  15px;
-    width: 100%;   
+    width: 100%;
+    padding: 0 10px; /* Reducimos el padding para pantallas pequeñas */
+    flex-wrap: nowrap; /* Evitamos que los elementos se apilen */
 }
 
 .logo {
@@ -138,32 +184,184 @@ Main page product
     align-items: center;
 }
 .logo img {
-    height: 50px;
     margin-right: 5px;
+    height: 50px; /*  el tamaño del logo */
     padding: 10px;
 }
 
-.social__redes__Apps {
-    height:16px;
-    display: flex;
-    gap: 10px;
-    transition: all ease 300ms;
-    padding: 15px;
-    align-items: center;
-    margin-left: 15px;  
+.search__box input {
+    /*+padding: 5px;
+    +font-size: 14px;*/
+    width: 140px; /* ancho de la barra de búsqueda */
 }
 
+.search__wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+}
+
+.search__wrapper input[type="search"] {
+   width: 80%;
+    padding: 8px 12px 8px 35px; /* Espacio a la izquierda para el ícono */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95em;
+    color: #333;
+    background-color: #fff;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.search__wrapper input[type="search"]:focus {
+    outline: none;
+    border-color: #003087; /* Azul oscuro del header */
+    box-shadow: 0 0 5px rgba(0, 48, 135, 0.3);
+}
+
+.search__icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666; /* Gris para el ícono */
+    font-size: 1em;
+    pointer-events: auto; /* Permitir clics en el ícono */
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.search__icon:hover {
+    /* +color: #003087; /* Azul oscuro al pasar el mouse * /
+    color: #e60000;
+    */
+    color: rgba(37, 211, 102, 0.7);
+}
+
+.social__redes__Apps {
+    height: 16px;
+    display: flex;
+    flex-wrap: nowrap; /* Evita que los íconos se apilen */
+    gap: 8px; /* Reducimos el gap para ahorrar espacio */
+    transition: all ease 300ms;
+    padding: 10px;
+    align-items: center;
+    margin-left: 5px;
+}
+
+/* Ajustar el tamaño de los íconos */
+.social__redes__Apps a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px; /* Tamaño uniforme para los íconos */
+    height: 16px;
+}
+/* Asegurar que las imágenes dentro de los íconos no se desborden */
+.social__redes__Apps a img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Estilos específicos para el ícono del carrito */
+.car__compras {
+/*
+   + position: relative;
+   + gap: 5px; /* Espacio entre icono y contador * /
+    +padding-right: 10px;
+*/  
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.car__compras a {
+   /* width: 24px; /* Aumentamos el tamaño del contenedor del carrito * /
+    height: 24px;
+    
+    display: flex; 
+    flex-direction: row;
+    align-items: center;
+    gap: 2px; /* Espacio mínimo entre el ícono y el contador * /
++gap: 5px; /* Espacio entre icono y contador * /
+    transition: transform 0.3s ease; /* Transición suave para el efecto de escala * /
+
+*/
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-decoration: none;
+}
+/*
+.car__compras a:hover {
+   + transform: scale(1.2); /* Efecto de escala al pasar el mouse * /
+   +animation: bounce 0.5s ease; /* Animación de rebote * /
+   +transform: rotate(15deg); /* Rotación de 15 grados al pasar el mouse * /
+}
+*/
+
+.car__compras a img {
+   /* width: 100%;
+    height: 100%;
+    + display: block;
+    */
+    width: 24px; /* Tamaño del ícono */
+    height: 24px;
+    object-fit: contain;
+}
+
+/* Animación de rebote */
+@keyframes bounce {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    70% { transform: scale(1.1); }
+    100% { transform: scale(1.2); }
+}
+/* Estilo del contador */
+#cuenta__Cart {
+    /*
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    margin-top: 2px; /* Ajuste fino para subir un poco más el contador * /
+    margin-left: 2px; /*  espacio entre icono y contador * /
+
+*/
+    position: absolute;
+    background-color: #CD201F; /* Rojo */
+    color: #FFFFFF;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 1; /* texto  centrado verticalmente */
+    right: 16px;
+    top: -12px;
+}
 .facebook:hover {
     transform: scale(1.4);   
 }
 .youtube:hover {
-    transform: scale(1.5); 
+    transform: scale(1.4); 
 }
 .intagram:hover {
-    transform: scale(1.5); 
+    transform: scale(1.4); 
 }
 .tik-tok:hover {
-    transform: scale(1.5); 
+    transform: scale(1.4); 
 }
 /* Menu navegation*/
 nav {
@@ -234,11 +432,17 @@ nav {
 /* Pie pag*/ 
 
 .footer__container {
+    /*
     bottom: 0;
     margin: 0;  
     padding: 0.2px 20px 0px 10px;
     margin-bottom: 0px;
-    align-items: center;   
+    align-items: center;  
+    padding: 5px 20px; /* Ajustamos el padding para que sea mínimo * /
+    */
+    margin: 0;
+    padding: 0.2px 20px 0px 10px;
+    align-items: center;
 }
 .company__info ul li a {
     font-size: 13px;   
@@ -678,8 +882,6 @@ nav {
     opacity: 1;
 }
 
-
-
 @media screen and (max-width: 635px) {
    nav  > ul {
         flex-direction: column;
@@ -756,7 +958,11 @@ nav {
     }
   
     .main__container {
-        height: calc(100vh - 220px); 
+       /* +height: calc(100vh - 220px);
+      + padding-bottom: 0; /* Asegura que no haya padding inferior */
+
+        height: auto; /* Ajuste dinámico */
+        padding-bottom: 40px; /* Espacio para el footer y WhatsApp */
     }
     .section__menu {
         overflow-y: auto; 
@@ -769,14 +975,54 @@ nav {
         margin-left: 20%;
     }
     .social__redes__Apps {
-        height:10px;
-        margin-left: 5px; 
+        padding: 5px;
+
+        height: 14px; /* Ajustamos el height */
+        margin-left: 3px; /* Reducimos aún más */
+        gap: 5px; /* Reducimos el gap */
+        flex-wrap: nowrap; /* Forzamos que se mantengan en fila */
+    }
+    .social__redes__Apps a {
+        width: 14px; /* Reducimos el tamaño de los íconos */
+        height: 14px;
+    }
+    .main__container_cart {  
+        padding: 15px 15px;
+    }
+
+    .search__box input {
+        /*+width: 80px; /* Reducimos más el ancho */
+        font-size: 12px;
+    }
+
+    .logo img {
+        height: 40px; /*  el tamaño del logo */
         padding: 5px;
     }
 
-    .main__container_cart {
-        
-        padding: 15px 15px;
+    .clear-filter-btn {
+        font-size: 0.8em;
+    }
+}
+    @media (max-width: 768px) {
+    .section__menu {
+    /*
+        padding: 5px;
+    */
+        padding: 10px 15px;
+    }
 
+    .menu-title {
+        font-size: .8em;
+    }
+
+    .menu-link {
+        padding: 8px 12px;
+        font-size: 0.9em;
+    }
+
+    .clear-filter-btn {
+        padding: 8px 12px;
+        font-size: 0.8em;
     }
 }
