@@ -17,12 +17,21 @@
 }
 
 .main__container_cart {
-    display: flex;
+  /*  display: flex;
     flex-wrap: wrap;
     justify-content: center;
     padding-top: 150px;
     overflow-y: auto;
     height: calc(100vh - 265px);
+*/
+    display: flex;
+    width: 100%;
+    padding-top: 100px; /* Altura del header */
+    flex: 1; /* Ocupa el espacio restante entre header y footer */
+    height: auto; /* ajuste dinámico */
+    justify-content: center;
+    margin-bottom: 0; /* Aseguramos que no haya margen inferior */
+    padding-bottom: 40px; /* Espacio para el footer y WhatsApp */
 }
 
 #cuenta__Cart {
@@ -38,7 +47,7 @@
 }
 
 #cuenta__Cart:hover {
-    background-color: #218838;
+    background-color: rgba(37, 211, 102, 0.7);
 }
 
 /* Estilos de la tabla del carrito */
@@ -483,7 +492,6 @@
         flex-wrap: wrap; /* Permitir que los campos se envuelvan si no caben */
         gap: 20px;
     }
-
     .input-group {
         flex: 1; /* Hacer que los campos ocupen el espacio disponible */
         min-width: 200px; /* Asegurar un ancho mínimo */
