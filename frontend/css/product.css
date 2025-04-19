@@ -9,8 +9,9 @@
     +weight: 375px;
    + overflow: hidden;
   + padding: 10px;
-
+   + overflow: hidden; /* Evita que el contenido desborde *
     */
+
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -30,8 +31,6 @@
     padding: 15px;
     position: relative;
     overflow: visible; /* Asegurar que el stock-flag no se recorte */
-
-
 }
 /* sombra de las tarjetas*/
 .product-card:hover {
@@ -147,6 +146,7 @@ h2 {
 }
 
 .buy-button {
+    
     width: 100%;
     background-color:  #CD201F;
     color: #fff;
@@ -245,6 +245,10 @@ h2 {
 }
 
 .stock-flag {
+    /*
+    +animation: pulse 1.5s infinite ease-in-out; /* Animación de pulsación  keyframes pulse  * /
+
+    */
     position: absolute;
     top: 0; /* Mantener en la parte superior */
     left: 0; /* Alinear a la izquierda */
@@ -258,11 +262,28 @@ h2 {
     border-radius: 0 12px 12px 0; /* Redondear solo los bordes derechos */
     box-shadow: 0 2px 8px rgba(255, 111, 0, 0.5); /* Sombra con un toque naranja */
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Sombra en el texto para profundidad */
-    z-index: 10; /* Asegurar que esté por encima de otros elementos */
-    animation: pulse 1.5s infinite ease-in-out; /* Animación de pulsación */
+    z-index: 5; /* Asegurar que esté por encima de otros elementos */
+
+    animation: shine 4s infinite ease-in-out; /* Nueva animación */
+    overflow: hidden; /* Necesario para el efecto de brillo */
+    background-size: 200% 100%; /* Para el cambio de color */
+}
+
+/* Pseudo-elemento para el efecto de brillo */
+.stock-flag::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: shine-effect 4s infinite ease-in-out;
 }
 
 /* Animación de pulsación para el stock-flag */
+
+/* genera un tipo palpito latido leve * /
 @keyframes pulse {
     0% {
         transform: scale(1);
@@ -278,6 +299,33 @@ h2 {
     }
 }
 
+/* Animación de brillo y cambio de color */
+@keyframes shine {
+    0% {
+        background-position: 0% 50%; /* Posición inicial del gradiente */
+        box-shadow: 0 2px 8px rgba(255, 111, 0, 0.5);
+    }
+    50% {
+        background-position: 100% 50%; /* Mueve el gradiente para cambio de color */
+        box-shadow: 0 2px 12px rgba(255, 111, 0, 0.7);
+    }
+    100% {
+        background-position: 0% 50%; /* Vuelve al inicio */
+        box-shadow: 0 2px 8px rgba(255, 111, 0, 0.5);
+    }
+}
+@keyframes shine-effect {
+    0% {
+        left: -100%;
+    }
+    50% {
+        left: 100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
 /* Estilo del botón cuando está desactivado */
 .buy-button:disabled {
     background-color: #cccccc; /* Gris para indicar que está desactivado */
@@ -288,7 +336,7 @@ h2 {
 
 /* Estilo del enlace "Contactar por Chat" dentro del botón */
 .buy-button .contact-chat {
-    color: #fff;
+    color: #ffffff;
     text-decoration: none;
     font-weight: bold;
     display: block; /* Asegurar que ocupe todo el espacio del botón */
@@ -310,4 +358,163 @@ h2 {
     cursor: not-allowed;
     opacity: 0.6;
     pointer-events: none; /* Asegurar que no se puedan interactuar */
+}
+
+/* Estilos para la sección del menú1 lado izq  */
+.section__menu {
+/*
+    padding: 10px 20px;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #ddd;
+    position: relative; /* Asegurar que no flote sobre otros elementos * /
+*/
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    max-width: 1200px;
+    z-index: 10; /* Por si hay elementos con z-index en los productos */
+}
+
+.menu-container {
+ /*  
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+*/
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.menu-title {
+    font-size: 1.3em;
+    font-weight: 600;
+    color: #003153;
+    margin: 0;
+}
+
+.section__menu span {
+    font-size: 1em;
+    font-weight: bold;
+    color: #333;
+}
+
+.sub__menu1 {
+ /*   
+    gap: 15px;
+*/
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column; /* Enlaces uno debajo del otro */
+    gap: 10px;
+}
+
+.sub__menu1 li {
+/*
+    display: inline-block;
+*/
+    width: fit-content;
+}
+
+menu-link {
+    display: block;
+    text-decoration: none;
+    color: #333;
+    padding: 10px 15px;
+    border-radius: 6px;
+    background-color: #f5f5f5;
+    font-size: 1em;
+    font-weight: 500;
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+}
+
+.menu-link:hover {
+    background-color: #e0e0e0;
+    transform: translateX(5px); /* Efecto suave al pasar el mouse */
+}
+
+.menu-link.active {
+    /*
+    background-color: #007bff;
+    font-weight: 600;
+    */
+    background-color: #003153;
+    color: #fff;
+    font-weight: bold;
+}
+
+.clear-filter-btn {
+    /*
+    background-color: #e60000;
+    width: fit-content;
+    */
+    padding: 8px 12px;
+    background-color:  #CD201F;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s, transform 0.2s;
+    align-self: flex-start;
+
+    border-radius: 6px;
+    font-weight: 500;
+    
+}
+
+.clear-filter-btn:hover {
+    background-color: #e60000;
+    transform: translateY(-2px); /* Efecto de elevación */
+}
+/* Responsive para pantallas pequeñas (iPhone 7 Plus: 414px) */
+@media (max-width: 428px) {
+    .section__menu {
+        padding: 5px 10px;
+    }
+
+    .menu-title {
+        font-size: 45em;
+    }
+    .menu-link {
+        padding: 8px 12px;
+        font-size: 0.7em;
+    }
+
+    .menu-link {
+        padding: 8px 12px;
+        font-size: 0.9em;
+    }
+
+    .clear-filter-btn {
+        padding: 8px 12px;
+        font-size: 0.8em;
+    }
+
+    .section__product {
+        margin-top: 15px;
+        padding: 10px 15px;
+    }
+    .clear-filter-btn {
+        font-size: 0.8em;
+    }
+    .search__box {
+        max-width: 200px; /* Reducir ancho en móviles */
+        margin-left: auto;
+    }
+
+    .search__wrapper input[type="search"] {
+        padding: 6px 10px 6px 30px; /* Menos padding en móviles */
+        font-size: 0.9em;
+       
+    }
+
+    .search__icon {
+        left: 8px;
+        font-size: 0.9em;
+    }
 }
