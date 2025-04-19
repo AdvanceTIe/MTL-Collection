@@ -34,12 +34,15 @@
         <div class="header__container">
             <div class="header__top">
                 <div class="logo">
-                    <a href="Product.html">
+                    <a href="product.html">
                         <img src="/img/myth-toys-lover.jpg" title="Toys lover" alt="Myth-toys-lover" class="logo__src">
                     </a>
                 </div>
                 <div class="search__box">
-                    <input type="search" placeholder="¿Buscar?">
+                    <div class="search__wrapper">
+                        <i class="fas fa-magnifying-glass search__icon"></i>
+                        <input type="search" placeholder="¿Buscar?" id="searchInput">
+                    </div>
                 </div>
                 <div class="social__redes__Apps">
                     <div class="footer__redes__Apps">
@@ -58,7 +61,6 @@
                     </div>
                     <div class="car__compras">
                         <a href="/cart.html" id="cart__icon">
-                           <!-- <img src="/frontend/img/car-compras.gif" alt=""> <span id="cuenta__Cart">0</span> -->
                             <img src="/img/shopping-card-svgrepo-com.svg" alt=""> <span id="cuenta__Cart">0</span>
                         </a>
                     </div>                  
@@ -69,22 +71,19 @@
 
     <main class="main__container">
         <section class="section__menu">           
-            <li>
-                <span> <br>Franquicias</span><br> 
+            <div class="menu-container">
+                <span class="menu-title">Franquicias</span>
                 <ul class="sub__menu1">
-                    <li> <a href="#">Saint Seiya</a></li>
-                    <li> <a href="#">Gundam</a></li>
-                </ul> 
-            </li>
+                    <li><a href="#" id="filter-saint-seiya" class="menu-link">Saint Seiya</a></li>
+                    <li><a href="#" id="filter-gundam" class="menu-link">Gundam</a></li>
+                </ul>
+                <button id="clear-filter" class="clear-filter-btn" style="display: none;">Limpiar Filtro</button>
+            </div>
         </section>
         <section class="section__product"> 
             <div id="products-section" class="products-section"></div>
         </section>
         <script src="/js/scriptp.js"></script>
-        <p>
-            <br>
-            <br>
-        </p>
     </main>
 
     <footer class="footer__global">
