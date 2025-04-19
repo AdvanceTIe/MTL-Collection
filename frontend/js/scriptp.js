@@ -14,8 +14,30 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(products => {
             console.log("Productos recibidos:", products);
             productsData = products;
+
+            // Leer el parámetro de búsqueda de la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchTermFromURL = urlParams.get('search');
+
             // Filtrar productos con stock !== 3 antes de renderizar
-            const filteredProducts = productsData.filter(product => product.stock !== 3);
+            let filteredProducts = productsData.filter(product => product.stock !== 3);
+
+            if (searchTermFromURL && searchInput) {
+                // Si hay un término de búsqueda en la URL, lo aplicamos al campo y filtramos
+                searchInput.value = decodeURIComponent(searchTermFromURL);
+                filteredProducts = filteredProducts.filter(product => 
+                    product.category.toLowerCase().includes(searchTermFromURL.toLowerCase()) ||
+                    product.name.toLowerCase().includes(searchTermFromURL.toLowerCase())
+                );
+                // Marcar enlace activo si coincide con el término de la URL
+                updateActiveLink(searchTermFromURL);
+                // Mostrar botón de limpiar filtro
+                const clearFilterBtn = document.getElementById('clear-filter');
+                if (clearFilterBtn) {
+                    clearFilterBtn.style.display = 'block';
+                }
+            }
+
             renderProducts(filteredProducts);
         })
         .catch(error => console.error("Error al cargar los productos:", error));
@@ -30,15 +52,169 @@ document.addEventListener('DOMContentLoaded', function() {
         filteredProducts.forEach((product, index) => createProductCard(product, index));
     }
 
-    // Función para filtrar productos por categoría
-    searchInput.addEventListener("input", function () {
-        const searchValue = searchInput.value.trim().toLowerCase();
-        // Filtrar primero por stock !== 3 y luego por búsqueda
+    // Función para filtrar productos (reutilizable para el campo de búsqueda y los enlaces del menú)
+    function filterProductsByTerm(searchValue) {
         const filteredProducts = productsData
             .filter(product => product.stock !== 3) // No mostrar productos con stock 3
-            .filter(product => product.category.toLowerCase().includes(searchValue));
+            .filter(product => 
+                product.category.toLowerCase().includes(searchValue.toLowerCase()) ||
+                product.name.toLowerCase().includes(searchValue.toLowerCase())
+            );
         renderProducts(filteredProducts);
+        // Actualizar la URL con el término de búsqueda
+        if (searchValue) {
+            window.history.pushState({}, '', `/product.html?search=${encodeURIComponent(searchValue)}`);
+            // Mostrar botón de limpiar filtro
+            const clearFilterBtn = document.getElementById('clear-filter');
+            if (clearFilterBtn) {
+                clearFilterBtn.style.display = 'block';
+            }
+        } else {
+            window.history.pushState({}, '', '/product.html');
+            // Ocultar botón de limpiar filtro
+            const clearFilterBtn = document.getElementById('clear-filter');
+            if (clearFilterBtn) {
+                clearFilterBtn.style.display = 'none';
+            }
+        }
+        // Actualizar enlace activo
+        updateActiveLink(searchValue);
+    }
+
+    // Función para actualizar el enlace activo
+    function updateActiveLink(searchValue) {
+        const saintSeiyaLink = document.getElementById('filter-saint-seiya');
+        const gundamLink = document.getElementById('filter-gundam');
+        
+        // Quitar clase active de todos los enlaces
+        if (saintSeiyaLink) saintSeiyaLink.classList.remove('active');
+        if (gundamLink) gundamLink.classList.remove('active');
+
+        // Añadir clase active al enlace correspondiente
+        if (searchValue.toLowerCase() === 'saint seiya' && saintSeiyaLink) {
+            saintSeiyaLink.classList.add('active');
+        } else if (searchValue.toLowerCase() === 'bandai' && gundamLink) {
+            gundamLink.classList.add('active');
+        }
+    }
+
+    // Escuchar cambios en el campo de búsqueda en tiempo real
+    if (searchInput) {
+        let debounceTimeout;
+
+        searchInput.addEventListener("input", function () {
+            const searchValue = searchInput.value.trim().toLowerCase();
+
+            // Si estamos en product.html, filtramos directamente (sin debounce)
+            if (window.location.pathname.includes('product.html')) {
+                filterProductsByTerm(searchValue);
+            } else {
+                // Si estamos en otra página (como cart.html), usamos debounce para redirigir
+                clearTimeout(debounceTimeout);
+                debounceTimeout = setTimeout(() => {
+                    if (searchValue) {
+                        window.location.href = `/product.html?search=${encodeURIComponent(searchValue)}`;
+                    } else {
+                        window.location.href = `/product.html`;
+                    }
+                }, 500); // Esperar 500ms antes de redirigir
+            }
+        });
+    }
+
+    // Manejar clic en el ícono de lupa
+/*
+const searchIcon = document.querySelector('.search__icon');
+if (searchIcon && searchInput) {
+    searchIcon.addEventListener('click', function() {
+        const searchValue = searchInput.value.trim();
+        if (searchValue) {
+            // Si hay texto, aplicar el filtro
+            filterProductsByTerm(searchValue);
+        } else {
+            // Si está vacío, enfocar el campo de búsqueda
+            searchInput.focus();
+        }
     });
+}
+*/
+
+const searchIcon = document.querySelector('.search__icon');
+if (searchIcon && searchInput) {
+    searchIcon.addEventListener('click', function() {
+        const searchValue = searchInput.value.trim();
+        if (searchValue) {
+            if (window.location.pathname.includes('product.html')) {
+                // En product.html, aplicar filtro inmediato
+                filterProductsByTerm(searchValue);
+            } else {
+                // En otras páginas, redirigir de inmediato sin debounce
+                window.location.href = `/product.html?search=${encodeURIComponent(searchValue)}`;
+            }
+        } else {
+            // Si está vacío, enfocar el campo
+            searchInput.focus();
+        }
+    });
+}
+
+// Ajustar el evento input para mantener el debounce en otras páginas
+if (searchInput) {
+    let debounceTimeout;
+    searchInput.addEventListener("input", function () {
+        const searchValue = searchInput.value.trim().toLowerCase();
+        if (window.location.pathname.includes('product.html')) {
+            filterProductsByTerm(searchValue);
+        } else {
+            // Solo aplicar debounce si no se usó el ícono
+            clearTimeout(debounceTimeout);
+            debounceTimeout = setTimeout(() => {
+                if (searchValue) {
+                    window.location.href = `/product.html?search=${encodeURIComponent(searchValue)}`;
+                } else {
+                    window.location.href = `/product.html`;
+                }
+            }, 1000);
+        }
+    });
+}
+
+// Manejar clics en los enlaces del menú
+    const saintSeiyaLink = document.getElementById('filter-saint-seiya');
+    const gundamLink = document.getElementById('filter-gundam');
+
+    if (saintSeiyaLink) {
+        saintSeiyaLink.addEventListener('click', function(e) {
+            e.preventDefault(); // Evitar que el enlace recargue la página
+            const searchTerm = 'Saint Seiya';
+            if (searchInput) {
+                searchInput.value = searchTerm; // Mostrar el término en el campo de búsqueda
+            }
+            filterProductsByTerm(searchTerm);
+        });
+    }
+
+    if (gundamLink) {
+        gundamLink.addEventListener('click', function(e) {
+            e.preventDefault(); // Evitar que el enlace recargue la página
+            const searchTerm = 'Bandai'; // Buscar "Bandai" en lugar de "Gundam"
+            if (searchInput) {
+                searchInput.value = searchTerm; // Mostrar el término en el campo de búsqueda
+            }
+            filterProductsByTerm(searchTerm);
+        });
+    }
+
+    // Manejar clic en el botón de limpiar filtro
+    const clearFilterBtn = document.getElementById('clear-filter');
+    if (clearFilterBtn) {
+        clearFilterBtn.addEventListener('click', function() {
+            if (searchInput) {
+                searchInput.value = ''; // Limpiar el campo de búsqueda
+            }
+            filterProductsByTerm(''); // Mostrar todos los productos
+        });
+    }
 
     function createProductCard(product, index) {
         console.log("Creando tarjeta para:", product);
@@ -55,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Determinar si el botón debe estar desactivado y su contenido
         const isLowStock = product.stock === 1;
         const buttonContent = isLowStock
-            ? `<a href="https://wa.me/17868342456?text=Bienvenido a Myth toys lover, quiero infromacion sobre  ${encodeURIComponent(product.name)}"  target="_blank" class="contact-chat">Contactar por Chat</a>`
+            ? `<a href="https://wa.me/17868342456?text=Bienvenido a Myth toys lover, quiero infromacion sobre ${encodeURIComponent(product.name)}"  target="_blank" class="contact-chat">Contactar por Chat</a>`
             : `Agregar: $${product.options[0].price.toFixed(2)}`;
     
         productCard.innerHTML = `
