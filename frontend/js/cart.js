@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const TAX_RATE = 0.07; // % de impuesto
 
-    let shippingCost = 0; // Variable para almacenar el costo de envío
+    let shippingCost = 0; // costo de envío
 
     if (!cartContainer) {
         console.error("Error: No se encontró el contenedor 'cart-items'");
