@@ -63,14 +63,14 @@ document.addEventListener('DOMContentLoaded', function() {
         renderProducts(filteredProducts);
         // Actualizar la URL con el término de búsqueda
         if (searchValue) {
-            window.history.pushState({}, '', `/product.html?search=${encodeURIComponent(searchValue)}`);
+            window.history.pushState({}, '', `/Product.html?search=${encodeURIComponent(searchValue)}`);
             // Mostrar botón de limpiar filtro
             const clearFilterBtn = document.getElementById('clear-filter');
             if (clearFilterBtn) {
                 clearFilterBtn.style.display = 'block';
             }
         } else {
-            window.history.pushState({}, '', '/product.html');
+            window.history.pushState({}, '', '/Product.html');
             // Ocultar botón de limpiar filtro
             const clearFilterBtn = document.getElementById('clear-filter');
             if (clearFilterBtn) {
@@ -106,16 +106,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const searchValue = searchInput.value.trim().toLowerCase();
 
             // Si estamos en product.html, filtramos directamente (sin debounce)
-            if (window.location.pathname.includes('product.html')) {
+            if (window.location.pathname.includes('Product.html')) {
                 filterProductsByTerm(searchValue);
             } else {
                 // Si estamos en otra página (como cart.html), usamos debounce para redirigir
                 clearTimeout(debounceTimeout);
                 debounceTimeout = setTimeout(() => {
                     if (searchValue) {
-                        window.location.href = `/product.html?search=${encodeURIComponent(searchValue)}`;
+                        window.location.href = `/Product.html?search=${encodeURIComponent(searchValue)}`;
                     } else {
-                        window.location.href = `/product.html`;
+                        window.location.href = `/Product.html`;
                     }
                 }, 500); // Esperar 500ms antes de redirigir
             }
@@ -144,12 +144,12 @@ if (searchIcon && searchInput) {
     searchIcon.addEventListener('click', function() {
         const searchValue = searchInput.value.trim();
         if (searchValue) {
-            if (window.location.pathname.includes('product.html')) {
+            if (window.location.pathname.includes('Product.html')) {
                 // En product.html, aplicar filtro inmediato
                 filterProductsByTerm(searchValue);
             } else {
                 // En otras páginas, redirigir de inmediato sin debounce
-                window.location.href = `/product.html?search=${encodeURIComponent(searchValue)}`;
+                window.location.href = `/Product.html?search=${encodeURIComponent(searchValue)}`;
             }
         } else {
             // Si está vacío, enfocar el campo
@@ -163,16 +163,16 @@ if (searchInput) {
     let debounceTimeout;
     searchInput.addEventListener("input", function () {
         const searchValue = searchInput.value.trim().toLowerCase();
-        if (window.location.pathname.includes('product.html')) {
+        if (window.location.pathname.includes('Product.html')) {
             filterProductsByTerm(searchValue);
         } else {
             // Solo aplicar debounce si no se usó el ícono
             clearTimeout(debounceTimeout);
             debounceTimeout = setTimeout(() => {
                 if (searchValue) {
-                    window.location.href = `/product.html?search=${encodeURIComponent(searchValue)}`;
+                    window.location.href = `/Product.html?search=${encodeURIComponent(searchValue)}`;
                 } else {
-                    window.location.href = `/product.html`;
+                    window.location.href = `/Product.html`;
                 }
             }, 1000);
         }
